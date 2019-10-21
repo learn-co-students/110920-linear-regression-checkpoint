@@ -1,209 +1,21 @@
 
-<h1 style='text-align:center'> Module 1 Assessment</h1>
+## Linear Regression
 
-This assessment is designed to test your understanding of the Mod 1 material. It covers:
-
-* Python Fundamentals
-* Working with Statistical Data
-* Pandas and Numpy
-* Data Visualization
-* Linear Regression
-
-Read the instructions carefully. You will be asked both to write code and respond to a few short answer questions.
-
-#### Note on the short answer questions
-For the short answer questions _please use your own words_. The expectation is that you have **not** copied and pasted from an external source, even if you consult another source to help craft your response. While the short answer questions are not necessarily being assessed on grammatical correctness or sentence structure, do your best to communicate yourself clearly.
-
-## Python Fundamentals
-
-In the first section, we will work with various Python data types and try to accomplish certain tasks using some Python fundamentals. Below, we've defined a dictionary with soccer player names as keys for nested dictionaries containing information about each players age, nationality, and a list of teams they have played for.   
-
-
-```python
-players = {
-	'L. Messi': {
-		'age': 31,
-		'nationality': 'Argentina',
-		'teams': ['Barcelona']
-	},
-	'Cristiano Ronaldo': {
-		'age': 33,
-		'nationality': 'Portugal',
-		'teams': ['Juventus', 'Real Madrid', 'Manchester United']
-	},
-	'Neymar Jr': {
-		'age': 26,
-		'nationality': 'Brazil',
-		'teams': ['Santos', 'Barcelona', 'Paris Saint-German']
-	},
-	'De Gea': {
-		'age': 27,
-		'nationality': 'Spain',
-		'teams': ['Atletico Madrid', 'Manchester United']
-	},
-	'K. De Bruyne': {
-		'age': 27,
-		'nationality': 'Belgium',
-		'teams': ['Chelsea', 'Manchester City']
-	}
-}
-```
-
-
-```python
-# __SOLUTION__ 
-players = {
-	'L. Messi': {
-		'age': 31,
-		'nationality': 'Argentina',
-		'teams': ['Barcelona']
-	},
-	'Cristiano Ronaldo': {
-		'age': 33,
-		'nationality': 'Portugal',
-		'teams': ['Juventus', 'Real Madrid', 'Manchester United']
-	},
-	'Neymar Jr': {
-		'age': 26,
-		'nationality': 'Brazil',
-		'teams': ['Santos', 'Barcelona', 'Paris Saint-German']
-	},
-	'De Gea': {
-		'age': 27,
-		'nationality': 'Spain',
-		'teams': ['Atletico Madrid', 'Manchester United']
-	},
-	'K. De Bruyne': {
-		'age': 27,
-		'nationality': 'Belgium',
-		'teams': ['Chelsea', 'Manchester City']
-	}
-}
-```
-
-**1) Create a `list` of all the keys in the `players` dictionary. Use python's documentation on dictionaries for help if needed. Store the list of player names in a variable called `player_names` to use in the next question.**
-
-
-```python
-# Get the list of all player names from the dictionary
-player_names = None
-```
-
-
-```python
-# __SOLUTION__ 
-player_names = list(players.keys())
-```
-
-
-```python
-# __SOLUTION__ 
-print(player_names)
-```
-
-    ['L. Messi', 'Cristiano Ronaldo', 'Neymar Jr', 'De Gea', 'K. De Bruyne']
-
-
-**2) Great! Now that we have each players name, let's use that information to create a `list` of `tuples` containing each player's name along with their nationality. Store the list in a variable called `player_nationalities`**
-
-
-```python
-# Generate list of tuples such that the first element in the tuple is 
-# a players name and the second is their nationality 
-# Ex: [('L. Messi', 'Argentina'), ('Christiano Ronaldo', 'Portugal'), ...]
-player_nationalities = None
-```
-
-
-```python
-# __SOLUTION__ 
-player_nationalities = [(x, players[x]['nationality']) for x in player_names]
-```
-
-
-```python
-# __SOLUTION__ 
-print(player_nationalities)
-```
-
-    [('L. Messi', 'Argentina'), ('Cristiano Ronaldo', 'Portugal'), ('Neymar Jr', 'Brazil'), ('De Gea', 'Spain'), ('K. De Bruyne', 'Belgium')]
-
-
-**3) Now, define a function called `get_players_on_team` that returns a `list` of the names of all the players who have played on a given team.** 
-
-Your function should take two arguments: 
-* a dictionary of player information
-* a `string` of the team you are trying to find the players for 
-
-**Be sure that your function has a `return` statement.**
-
-
-```python
-# Define your get_players_on_team function here.
-```
-
-
-```python
-players_on_manchester_united = get_players_on_team(players,'Manchester United')
-```
-
-
-```python
-# __SOLUTION__ 
-def get_players_on_team(dict_,team_name):
-    player_list = []
-    for player in dict_:
-        if team_name in dict_[player]['teams']:
-            player_list.append(player)
-    return player_list
-```
-
-
-```python
-# __SOLUTION__ 
-players_on_manchester_united = get_players_on_team(players,'Manchester United')
-print(players_on_manchester_united)
-```
-
-    ['Cristiano Ronaldo', 'De Gea']
-
-
-## Pandas and Numpy
-
-In this section you will be doing some preprocessing and exploratory data analysis for a dataset for the videogame FIFA19 (https://www.kaggle.com/karangadiya/fifa19).  The dataset contains both data for the game as well as information about the players' real life careers.  You will be building toward running a regression. 
-
-**1) Read the CSV file into a pandas dataframe**
-
-The data you'll be working with is found in a file called './data/fifa.csv'.  Use your knowledge of pandas to create a new dataframe using the csv data. 
-
-Check the contents of your dataframe with `df.head()`</b>
+Using the following FIFA soccer dataset, answer the questions below.
 
 
 ```python
 import pandas as pd
-import numpy as np
-import warnings
-warnings.filterwarnings('ignore')
 ```
 
 
 ```python
 # __SOLUTION__ 
 import pandas as pd
-import numpy as np
-import warnings
-warnings.filterwarnings('ignore')
 ```
 
 
 ```python
-df = None
-df.head()
-```
-
-
-```python
-# __SOLUTION__ 
 df = pd.read_csv('./data/fifa.csv')
 df.head()
 ```
@@ -229,7 +41,6 @@ df.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Unnamed: 0</th>
       <th>ID</th>
       <th>Name</th>
       <th>Age</th>
@@ -239,6 +50,7 @@ df.head()
       <th>Overall</th>
       <th>Potential</th>
       <th>Club</th>
+      <th>Club Logo</th>
       <th>...</th>
       <th>Composure</th>
       <th>Marking</th>
@@ -254,7 +66,6 @@ df.head()
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
       <td>0</td>
       <td>158023</td>
       <td>L. Messi</td>
@@ -265,6 +76,7 @@ df.head()
       <td>94</td>
       <td>94</td>
       <td>FC Barcelona</td>
+      <td>https://cdn.sofifa.org/teams/2/light/241.png</td>
       <td>...</td>
       <td>96.0</td>
       <td>33.0</td>
@@ -278,7 +90,6 @@ df.head()
       <td>226500.0</td>
     </tr>
     <tr>
-      <th>1</th>
       <td>1</td>
       <td>20801</td>
       <td>Cristiano Ronaldo</td>
@@ -289,6 +100,7 @@ df.head()
       <td>94</td>
       <td>94</td>
       <td>Juventus</td>
+      <td>https://cdn.sofifa.org/teams/2/light/45.png</td>
       <td>...</td>
       <td>95.0</td>
       <td>28.0</td>
@@ -302,7 +114,6 @@ df.head()
       <td>127100.0</td>
     </tr>
     <tr>
-      <th>2</th>
       <td>2</td>
       <td>190871</td>
       <td>Neymar Jr</td>
@@ -313,6 +124,7 @@ df.head()
       <td>92</td>
       <td>93</td>
       <td>Paris Saint-Germain</td>
+      <td>https://cdn.sofifa.org/teams/2/light/73.png</td>
       <td>...</td>
       <td>94.0</td>
       <td>27.0</td>
@@ -326,7 +138,6 @@ df.head()
       <td>228100.0</td>
     </tr>
     <tr>
-      <th>3</th>
       <td>3</td>
       <td>193080</td>
       <td>De Gea</td>
@@ -337,6 +148,7 @@ df.head()
       <td>91</td>
       <td>93</td>
       <td>Manchester United</td>
+      <td>https://cdn.sofifa.org/teams/2/light/11.png</td>
       <td>...</td>
       <td>68.0</td>
       <td>15.0</td>
@@ -350,7 +162,6 @@ df.head()
       <td>138600.0</td>
     </tr>
     <tr>
-      <th>4</th>
       <td>4</td>
       <td>192985</td>
       <td>K. De Bruyne</td>
@@ -361,6 +172,7 @@ df.head()
       <td>91</td>
       <td>92</td>
       <td>Manchester City</td>
+      <td>https://cdn.sofifa.org/teams/2/light/10.png</td>
       <td>...</td>
       <td>88.0</td>
       <td>68.0</td>
@@ -375,365 +187,16 @@ df.head()
     </tr>
   </tbody>
 </table>
-<p>5 rows × 89 columns</p>
+<p>5 rows × 88 columns</p>
 </div>
 
 
 
-**2) Check for duplicates**
-    
-**First, check how many columns and rows are in the dataset, then check how many unique values are in the "ID" column.**
-
-
-```python
-# code here to see the size of the dataframe
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to see the size of the dataframe
-df.shape
-```
-
-
-
-
-    (20000, 89)
-
-
-
-
-```python
-# code here to check number of unique ids
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to check number of unique ids
-df.ID.nunique()
-```
-
-
-
-
-    18207
-
-
-
-<b> 3) Drop Duplicates
-    
-It looks like there are duplicates.  Get rid of them by dropping duplicate rows. After you have dropped them, see how many rows are remaining.</b>
-
-
-```python
-# code here
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here
-df.drop_duplicates(subset=['ID'], inplace=True)
-```
-
-
-```python
-# now see how many rows there are
-
-```
-
-
-```python
-# __SOLUTION__ 
-# now see how many rows there are
-df.shape
-```
-
-
-
-
-    (18207, 89)
-
-
-
-<b> 4. Drop n/a rows for "Release Clause"
-    
-Drop rows for which "Release Clause" is none or not given. This is part of a soccer player's contract dealing with being bought out by another team. Release Clause will be the target variable for our regression model.  After you have dropped them, see how many rows are remaining.</b>
-
-
-```python
-# code here to drop n/a rows
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to drop n/a rows
-df.dropna(subset=['Release Clause'],inplace=True)
-```
-
-
-```python
-# now check how many rows are left 
-
-```
-
-
-```python
-# __SOLUTION__ 
-# now check how many rows are left 
-df.shape
-```
-
-
-
-
-    (16643, 89)
-
-
-
-<b> 5) Convert players' heights to inches. Replace the original height column.
-First create a function, then use it on your dataframe. Create a function that convert a string into a integer and then apply that function to all of the height column.</b>
-
-
-```python
-# code here to write a helper function
-def convert_height(height):
-    '''
-    inputs: height (string)
-    ----
-    returns: height in inches (int)
-    '''
-    pass
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to write a helper function
-def convert_height(height):
-    split = height.split("'")
-    return int(split[0])*12 + int(split[1])
-```
-
-
-```python
-# test here
-convert_height("5'7")
-```
-
-
-```python
-# __SOLUTION__ 
-# test here
-convert_height("5'7")
-```
-
-
-
-
-    67
-
-
-
-
-```python
-# code here to use the function on the height column
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to use the function on the height column
-df['Height'] = df.Height.apply(lambda x: convert_height(x))
-```
-
-## Data Visualization
-
-<b> 1) Make a histogram of players age
-    
-_Add a title and x axis label._ Use whichever plotting library you are most comfortable with. </b>
-
-
-```python
-import matplotlib.pyplot as plt
-import seaborn as sns
-%matplotlib inline
-```
-
-
-```python
-# __SOLUTION__ 
-import matplotlib.pyplot as plt
-import seaborn as sns
-%matplotlib inline
-```
-
-
-```python
-# histogram
-
-```
-
-
-```python
-# __SOLUTION__ 
-# histogram
-plt.hist(df.Age)
-plt.title('Age Histogram')
-plt.xlabel('Age')
-```
-
-
-
-
-    Text(0.5, 0, 'Age')
-
-
-
-
-![png](index_files/index_53_1.png)
-
-
-<b> 2) Make a bar chart for the 10 countries with the most players (by nationality)</b>
-
-Make sure to include x labels on your chart!
-
-
-```python
-# code here to get the top 10 countries with the most players
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to get the top 10 countries with the most players
-df.Nationality.value_counts()[0:10].index
-```
-
-
-
-
-    Index(['England', 'Germany', 'Spain', 'France', 'Argentina', 'Brazil', 'Italy',
-           'Colombia', 'Japan', 'Netherlands'],
-          dtype='object')
-
-
-
-
-```python
-# code here to plot a bar chart
-plt.subplots(figsize=(10,6))
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to plot a bar chart
-plt.bar(x= list(df.Nationality.value_counts()[0:10].index), height = list(df.Nationality.value_counts()[0:10].values))
-plt.xticks(rotation='vertical')
-```
-
-
-
-
-    ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], <a list of 10 Text xticklabel objects>)
-
-
-
-
-![png](index_files/index_58_1.png)
-
-
-<b> 3) Make a scatter plot for the player stats StandingTackle and SlidingTackle
-
-What can we say about these two features? </b>
-
-
-```python
-# code here to plot a scatterplot
-
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to plot a scatterplot
-plt.scatter(df['StandingTackle'], df['SlidingTackle'])
-
-```
-
-
-
-
-    <matplotlib.collections.PathCollection at 0x113e2d6d8>
-
-
-
-
-![png](index_files/index_61_1.png)
-
-
-
-```python
-# Your written answer here
-```
-
 
 ```python
 # __SOLUTION__
-# Your written answer here
-# These two features are highly correlated.
-```
-
-### Exploring Statistical Data
-
-We'll continue using the same FIFA 2019 dataset.  This section will assess your ability to use numpy and work with summary statistics.
-
-<b>1) Convert the Release Clause Price from Euros to Dollars
-    
-Create a new column that has the 'release_clause' in dollars.
-
-1.2 Dollars = 1 Euro.</b>
-
-
-```python
-# code here to convert the column of euros to dollarss
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here to convert the column of euros to dollarss
-df['release_clause_dollars'] = df['Release Clause'] * 1.2
-```
-
-<b>2) Get summary statistics for all numeric columns
-    
-(Please don't do each column individually!)</b>
-
-
-```python
-# code here
-
-```
-
-
-```python
-# __SOLUTION__ 
-# code here
-df.describe()
+df = pd.read_csv('./data/fifa.csv')
+df.head()
 ```
 
 
@@ -757,17 +220,18 @@ df.describe()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Unnamed: 0</th>
       <th>ID</th>
+      <th>Name</th>
       <th>Age</th>
+      <th>Photo</th>
+      <th>Nationality</th>
+      <th>Flag</th>
       <th>Overall</th>
       <th>Potential</th>
-      <th>Special</th>
-      <th>International Reputation</th>
-      <th>Weak Foot</th>
-      <th>Skill Moves</th>
-      <th>Jersey Number</th>
+      <th>Club</th>
+      <th>Club Logo</th>
       <th>...</th>
+      <th>Composure</th>
       <th>Marking</th>
       <th>StandingTackle</th>
       <th>SlidingTackle</th>
@@ -777,281 +241,135 @@ df.describe()
       <th>GKPositioning</th>
       <th>GKReflexes</th>
       <th>Release Clause</th>
-      <th>release_clause_dollars</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>count</th>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
+      <td>0</td>
+      <td>158023</td>
+      <td>L. Messi</td>
+      <td>31</td>
+      <td>https://cdn.sofifa.org/players/4/19/158023.png</td>
+      <td>Argentina</td>
+      <td>https://cdn.sofifa.org/flags/52.png</td>
+      <td>94</td>
+      <td>94</td>
+      <td>FC Barcelona</td>
+      <td>https://cdn.sofifa.org/teams/2/light/241.png</td>
       <td>...</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>16643.000000</td>
-      <td>1.664300e+04</td>
+      <td>96.0</td>
+      <td>33.0</td>
+      <td>28.0</td>
+      <td>26.0</td>
+      <td>6.0</td>
+      <td>11.0</td>
+      <td>15.0</td>
+      <td>14.0</td>
+      <td>8.0</td>
+      <td>226500.0</td>
     </tr>
     <tr>
-      <th>mean</th>
-      <td>5422.904945</td>
-      <td>213845.010094</td>
-      <td>25.226221</td>
-      <td>66.162771</td>
-      <td>71.140900</td>
-      <td>1595.383404</td>
-      <td>1.114823</td>
-      <td>2.942919</td>
-      <td>2.349516</td>
-      <td>19.657213</td>
+      <td>1</td>
+      <td>20801</td>
+      <td>Cristiano Ronaldo</td>
+      <td>33</td>
+      <td>https://cdn.sofifa.org/players/4/19/20801.png</td>
+      <td>Portugal</td>
+      <td>https://cdn.sofifa.org/flags/38.png</td>
+      <td>94</td>
+      <td>94</td>
+      <td>Juventus</td>
+      <td>https://cdn.sofifa.org/teams/2/light/45.png</td>
       <td>...</td>
-      <td>47.328967</td>
-      <td>47.776302</td>
-      <td>45.751607</td>
-      <td>16.747521</td>
-      <td>16.515712</td>
-      <td>16.355765</td>
-      <td>16.503936</td>
-      <td>16.837409</td>
-      <td>228201.273629</td>
-      <td>2.738415e+05</td>
+      <td>95.0</td>
+      <td>28.0</td>
+      <td>31.0</td>
+      <td>23.0</td>
+      <td>7.0</td>
+      <td>11.0</td>
+      <td>15.0</td>
+      <td>14.0</td>
+      <td>11.0</td>
+      <td>127100.0</td>
     </tr>
     <tr>
-      <th>std</th>
-      <td>2721.036613</td>
-      <td>30546.285826</td>
-      <td>4.716588</td>
-      <td>7.008236</td>
-      <td>6.151409</td>
-      <td>275.723076</td>
-      <td>0.398559</td>
-      <td>0.659933</td>
-      <td>0.755855</td>
-      <td>16.054811</td>
+      <td>2</td>
+      <td>190871</td>
+      <td>Neymar Jr</td>
+      <td>26</td>
+      <td>https://cdn.sofifa.org/players/4/19/190871.png</td>
+      <td>Brazil</td>
+      <td>https://cdn.sofifa.org/flags/54.png</td>
+      <td>92</td>
+      <td>93</td>
+      <td>Paris Saint-Germain</td>
+      <td>https://cdn.sofifa.org/teams/2/light/73.png</td>
       <td>...</td>
-      <td>19.937220</td>
-      <td>21.681809</td>
-      <td>21.295201</td>
-      <td>17.832273</td>
-      <td>17.033907</td>
-      <td>16.615668</td>
-      <td>17.151713</td>
-      <td>18.090985</td>
-      <td>299251.865865</td>
-      <td>3.591022e+05</td>
+      <td>94.0</td>
+      <td>27.0</td>
+      <td>24.0</td>
+      <td>33.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>15.0</td>
+      <td>15.0</td>
+      <td>11.0</td>
+      <td>228100.0</td>
     </tr>
     <tr>
-      <th>min</th>
-      <td>0.000000</td>
-      <td>16.000000</td>
-      <td>16.000000</td>
-      <td>46.000000</td>
-      <td>48.000000</td>
-      <td>731.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
+      <td>3</td>
+      <td>193080</td>
+      <td>De Gea</td>
+      <td>27</td>
+      <td>https://cdn.sofifa.org/players/4/19/193080.png</td>
+      <td>Spain</td>
+      <td>https://cdn.sofifa.org/flags/45.png</td>
+      <td>91</td>
+      <td>93</td>
+      <td>Manchester United</td>
+      <td>https://cdn.sofifa.org/teams/2/light/11.png</td>
       <td>...</td>
-      <td>3.000000</td>
-      <td>2.000000</td>
-      <td>3.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1000.000000</td>
-      <td>1.200000e+03</td>
+      <td>68.0</td>
+      <td>15.0</td>
+      <td>21.0</td>
+      <td>13.0</td>
+      <td>90.0</td>
+      <td>85.0</td>
+      <td>87.0</td>
+      <td>88.0</td>
+      <td>94.0</td>
+      <td>138600.0</td>
     </tr>
     <tr>
-      <th>25%</th>
-      <td>3175.500000</td>
-      <td>199569.500000</td>
-      <td>21.000000</td>
-      <td>62.000000</td>
-      <td>67.000000</td>
-      <td>1452.000000</td>
-      <td>1.000000</td>
-      <td>3.000000</td>
-      <td>2.000000</td>
-      <td>8.000000</td>
+      <td>4</td>
+      <td>192985</td>
+      <td>K. De Bruyne</td>
+      <td>27</td>
+      <td>https://cdn.sofifa.org/players/4/19/192985.png</td>
+      <td>Belgium</td>
+      <td>https://cdn.sofifa.org/flags/7.png</td>
+      <td>91</td>
+      <td>92</td>
+      <td>Manchester City</td>
+      <td>https://cdn.sofifa.org/teams/2/light/10.png</td>
       <td>...</td>
-      <td>30.000000</td>
-      <td>27.000000</td>
-      <td>24.000000</td>
-      <td>8.000000</td>
-      <td>8.000000</td>
-      <td>8.000000</td>
-      <td>8.000000</td>
-      <td>8.000000</td>
-      <td>2500.000000</td>
-      <td>3.000000e+03</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>5488.000000</td>
-      <td>221493.000000</td>
-      <td>25.000000</td>
-      <td>66.000000</td>
-      <td>71.000000</td>
-      <td>1633.000000</td>
-      <td>1.000000</td>
-      <td>3.000000</td>
-      <td>2.000000</td>
-      <td>17.000000</td>
-      <td>...</td>
-      <td>53.000000</td>
-      <td>55.000000</td>
-      <td>52.000000</td>
-      <td>11.000000</td>
-      <td>11.000000</td>
-      <td>11.000000</td>
-      <td>11.000000</td>
-      <td>11.000000</td>
-      <td>19800.000000</td>
-      <td>2.376000e+04</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>7770.000000</td>
-      <td>236802.000000</td>
-      <td>29.000000</td>
-      <td>71.000000</td>
-      <td>75.000000</td>
-      <td>1787.000000</td>
-      <td>1.000000</td>
-      <td>3.000000</td>
-      <td>3.000000</td>
-      <td>26.000000</td>
-      <td>...</td>
-      <td>64.000000</td>
-      <td>66.000000</td>
-      <td>64.000000</td>
-      <td>14.000000</td>
-      <td>14.000000</td>
-      <td>14.000000</td>
-      <td>14.000000</td>
-      <td>14.000000</td>
-      <td>431000.000000</td>
-      <td>5.172000e+05</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>9999.000000</td>
-      <td>246620.000000</td>
-      <td>45.000000</td>
-      <td>94.000000</td>
-      <td>95.000000</td>
-      <td>2346.000000</td>
-      <td>5.000000</td>
-      <td>5.000000</td>
-      <td>5.000000</td>
-      <td>99.000000</td>
-      <td>...</td>
-      <td>94.000000</td>
-      <td>93.000000</td>
-      <td>91.000000</td>
-      <td>90.000000</td>
-      <td>92.000000</td>
-      <td>91.000000</td>
-      <td>90.000000</td>
-      <td>94.000000</td>
-      <td>999000.000000</td>
-      <td>1.198800e+06</td>
+      <td>88.0</td>
+      <td>68.0</td>
+      <td>58.0</td>
+      <td>51.0</td>
+      <td>15.0</td>
+      <td>13.0</td>
+      <td>5.0</td>
+      <td>10.0</td>
+      <td>13.0</td>
+      <td>196400.0</td>
     </tr>
   </tbody>
 </table>
-<p>8 rows × 47 columns</p>
+<p>5 rows × 88 columns</p>
 </div>
 
 
-
-<b>3) What is the mean age and the median age for the players in this dataset?  How are the mean and median related to each other?</b>
-
-
-```python
-# code here
-```
-
-
-```python
-# __SOLUTION__ 
-print(df['Age'].mean())
-print(df['Age'].median())
-```
-
-    25.226221234152497
-    25.0
-
-
-
-```python
-# Your written answer here
-```
-
-
-```python
-# __SOLUTION__
-"""
-Mean age = 25.22 median age = 25
-
-The average age of all players in the league is 25.22 years. 
-The center of the dataset rests at 25. Since mean and median are pretty similar, 
-age seems to be slightly skewed towards the older end of the spectrum.
-"""
-```
-
-#### 4) Who is the oldest player in Argentina and how old is he?  
-
-
-```python
-# code here
-```
-
-
-```python
-# __SOLUTION__ 
-argentines = df.loc[df['Nationality'] == 'Argentina']
-
-argentines.loc[argentines['Age'].idxmax(), ['Name', 'Age']]
-```
-
-
-
-
-    Name    C. Muñoz
-    Age           41
-    Name: 7225, dtype: object
-
-
-
-
-```python
-# Your written answer here
-```
-
-
-```python
-# __SOLUTION__
-# Your written answer here
-# The oldest player in Argentina is C Muñoz, and he is 41 years old.
-```
-
-## Linear Regression
 
 <b> 1) What are the covariance and correlation between "GKDiving" and "GKHandling"? </b>
 
@@ -1114,15 +432,12 @@ from statsmodels.formula.api import ols
 
 Y = df['Release Clause']
 X = df[['Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling', 'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration', 'SprintSpeed', 'Agility', 'Reactions', 'Balance', 'ShotPower', 'Jumping', 'Stamina', 'Strength', 'LongShots', 'Aggression','Interceptions', 'Positioning', 'Vision', 'Penalties', 'Composure','Marking', 'StandingTackle', 'SlidingTackle', 'GKDiving', 'GKHandling','GKKicking', 'GKPositioning', 'GKReflexes']]
-
-
-
 ```
 
 
 ```python
 # __SOLUTION__ 
-#code here
+# code here
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
 
@@ -1149,10 +464,10 @@ results.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   82.81</td>  
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 06 Aug 2019</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
+  <th>Date:</th>             <td>Mon, 21 Oct 2019</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:51:25</td>     <th>  Log-Likelihood:    </th> <td>-2.3220e+05</td>
+  <th>Time:</th>                 <td>14:09:00</td>     <th>  Log-Likelihood:    </th> <td>-2.3220e+05</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td> 16643</td>      <th>  AIC:               </th>  <td>4.645e+05</td> 
