@@ -60,7 +60,7 @@ df.head()
   </thead>
   <tbody>
     <tr>
-      <td>0</td>
+      <th>0</th>
       <td>158023</td>
       <td>L. Messi</td>
       <td>31</td>
@@ -84,7 +84,7 @@ df.head()
       <td>226500.0</td>
     </tr>
     <tr>
-      <td>1</td>
+      <th>1</th>
       <td>20801</td>
       <td>Cristiano Ronaldo</td>
       <td>33</td>
@@ -108,7 +108,7 @@ df.head()
       <td>127100.0</td>
     </tr>
     <tr>
-      <td>2</td>
+      <th>2</th>
       <td>190871</td>
       <td>Neymar Jr</td>
       <td>26</td>
@@ -132,7 +132,7 @@ df.head()
       <td>228100.0</td>
     </tr>
     <tr>
-      <td>3</td>
+      <th>3</th>
       <td>193080</td>
       <td>De Gea</td>
       <td>27</td>
@@ -156,7 +156,7 @@ df.head()
       <td>138600.0</td>
     </tr>
     <tr>
-      <td>4</td>
+      <th>4</th>
       <td>192985</td>
       <td>K. De Bruyne</td>
       <td>27</td>
@@ -190,7 +190,6 @@ df.head()
 
 a. What is the difference between covariance and correlation?  
 b. What can you infer from the relationship between these variables?  
-c. Would it be a good idea to include both of these in a regression model?
 
 
 ```python
@@ -214,12 +213,16 @@ Once you have fit the linear regression, display the results (coefficient values
 
 
 ```python
-# code here
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
 
 Y = df['Release Clause']
 X = df[['Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling', 'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration', 'SprintSpeed', 'Agility', 'Reactions', 'Balance', 'ShotPower', 'Jumping', 'Stamina', 'Strength', 'LongShots', 'Aggression','Interceptions', 'Positioning', 'Vision', 'Penalties', 'Composure','Marking', 'StandingTackle', 'SlidingTackle', 'GKDiving', 'GKHandling','GKKicking', 'GKPositioning', 'GKReflexes']]
+```
+
+
+```python
+# code here
 ```
 
 <b> 3) Interpret the results of the regression. 
