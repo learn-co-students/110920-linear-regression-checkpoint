@@ -188,14 +188,26 @@ df.head()
 
 <b> 1) What are the covariance and correlation between "GKDiving" and "GKHandling"? </b>
 
-a. What is the difference between covariance and correlation?  
-b. What can you infer from the relationship between these variables?  
+
+```python
+# Your code here
+```
+
+a. What is the difference between covariance and correlation? 
 
 
 ```python
-# code here
-
+# Your written answer here
 ```
+
+b. What can you infer from the relationship between these variables?
+
+
+```python
+# Your written answer here
+```
+
+c. Would it be a good idea to include both of these in a regression model?
 
 
 ```python
