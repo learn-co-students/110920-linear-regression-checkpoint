@@ -201,13 +201,9 @@ df.head()
 
 <b> 1) What are the covariance and correlation between "GKDiving" and "GKHandling"? </b>
 
-a. What is the difference between covariance and correlation?  
-b. What can you infer from the relationship between these variables?  
-
 
 ```python
-# code here
-
+# Your code here
 ```
 
 
@@ -216,6 +212,8 @@ b. What can you infer from the relationship between these variables?
 print('Correlation:',np.corrcoef(df['GKDiving'],df['GKHandling'])[0][1])
 print('Covariance:',np.cov(df['GKDiving'],df['GKHandling'])[0][1])
 ```
+
+a. What is the difference between covariance and correlation? 
 
 
 ```python
@@ -228,9 +226,38 @@ print('Covariance:',np.cov(df['GKDiving'],df['GKHandling'])[0][1])
 """
 a. Correlation is a standardized version of covariance. 
 Covariance is on the scale of whatever values it is measuring, whereas correlation ranges from -1,1
+"""
+```
 
+b. What can you infer from the relationship between these variables?
+
+
+```python
+# Your written answer here
+```
+
+
+```python
+# __SOLUTION__
+"""
 b. These variables are strongly positively correlated! In general the higher better a player is at GKDiving, 
 the better they are going to be at GKHandling
+"""
+```
+
+c. Would it be a good idea to include both of these in a regression model?
+
+
+```python
+# Your written answer here
+```
+
+
+```python
+# __SOLUTION__
+"""
+c. It would probably not be a good idea to include both of these variables in a regression model 
+because then there would be high multicollinearity, which violates the independence assumption of linear regression.
 """
 ```
 
