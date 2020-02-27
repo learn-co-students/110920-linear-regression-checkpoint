@@ -1,97 +1,362 @@
-
 ## Linear Regression
 
-Using the following FIFA soccer dataset, answer the questions below.
+In this section, you'll be using the Advertising data, and you'll be creating a linear model that is more complicated than a simple linear regression. We'll import the relevant modules and load and prepare the dataset for you below.
 
 
 ```python
 import pandas as pd
-```
-
-
-```python
-df = pd.read_csv('./data/fifa.csv')
-df.head()
-```
-
-<b> 1) What are the covariance and correlation between "GKDiving" and "GKHandling"? </b>
-
-
-```python
-print('Correlation:',np.corrcoef(df['GKDiving'],df['GKHandling'])[0][1])
-print('Covariance:',np.cov(df['GKDiving'],df['GKHandling'])[0][1])
-```
-
-a. What is the difference between covariance and correlation? 
-
-
-```python
-"""
-a. Correlation is a standardized version of covariance. 
-Covariance is on the scale of whatever values it is measuring, whereas correlation ranges from -1,1
-"""
-```
-
-b. What can you infer from the relationship between these variables?
-
-
-```python
-"""
-b. These variables are strongly positively correlated! In general the higher better a player is at GKDiving, 
-the better they are going to be at GKHandling
-"""
-```
-
-c. Would it be a good idea to include both of these in a regression model?
-
-
-```python
-"""
-c. It would probably not be a good idea to include both of these variables in a regression model 
-because then there would be high multicollinearity, which violates the independence assumption of linear regression.
-"""
-```
-
-<b>2) Fit a linear regression using the `ols` module of statsmodels</b>
-
-Let's see how well each players' in-game stats reflect their real-world monetary value as a player. We  will not be considering real-world factors for this model, just the variables listed below.
-
-- y variable: Release Clause (the one in euros)
-- x variables: 'Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling', 'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration', 'SprintSpeed', 'Agility', 'Reactions', 'Balance', 'ShotPower', 'Jumping', 'Stamina', 'Strength', 'LongShots', 'Aggression','Interceptions', 'Positioning', 'Vision', 'Penalties', 'Composure','Marking', 'StandingTackle', 'SlidingTackle', 'GKDiving', 'GKHandling','GKKicking', 'GKPositioning', 'GKReflexes'
-
-Once you have fit the linear regression, display the results (coefficient values, $R^2$, etc.). Displaying the results can be done with one method!
-
-
-```python
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
-
-Y = df['Release Clause']
-X = df[['Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling', 'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration', 'SprintSpeed', 'Agility', 'Reactions', 'Balance', 'ShotPower', 'Jumping', 'Stamina', 'Strength', 'LongShots', 'Aggression','Interceptions', 'Positioning', 'Vision', 'Penalties', 'Composure','Marking', 'StandingTackle', 'SlidingTackle', 'GKDiving', 'GKHandling','GKKicking', 'GKPositioning', 'GKReflexes']]
 ```
 
 
 ```python
+data = pd.read_csv('data/advertising.csv').drop('Unnamed: 0', axis=1)
+data.describe()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TV</th>
+      <th>radio</th>
+      <th>newspaper</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>200.000000</td>
+      <td>200.000000</td>
+      <td>200.000000</td>
+      <td>200.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>147.042500</td>
+      <td>23.264000</td>
+      <td>30.554000</td>
+      <td>14.022500</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>85.854236</td>
+      <td>14.846809</td>
+      <td>21.778621</td>
+      <td>5.217457</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.700000</td>
+      <td>0.000000</td>
+      <td>0.300000</td>
+      <td>1.600000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>74.375000</td>
+      <td>9.975000</td>
+      <td>12.750000</td>
+      <td>10.375000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>149.750000</td>
+      <td>22.900000</td>
+      <td>25.750000</td>
+      <td>12.900000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>218.825000</td>
+      <td>36.525000</td>
+      <td>45.100000</td>
+      <td>17.400000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>296.400000</td>
+      <td>49.600000</td>
+      <td>114.000000</td>
+      <td>27.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+X = data.drop('sales', axis=1)
+y = data['sales']
+```
+
+In the linear regression section of the curriculum, you analyzed how TV, Radio, and Newspaper spendings individually affected the Sales figures. Here, we'll use all three together in a multiple linear regression model!
+
+## 1) Create a Correlation Matrix for `X`
+
+
+```python
+X.corr()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TV</th>
+      <th>radio</th>
+      <th>newspaper</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>TV</th>
+      <td>1.000000</td>
+      <td>0.054809</td>
+      <td>0.056648</td>
+    </tr>
+    <tr>
+      <th>radio</th>
+      <td>0.054809</td>
+      <td>1.000000</td>
+      <td>0.354104</td>
+    </tr>
+    <tr>
+      <th>newspaper</th>
+      <td>0.056648</td>
+      <td>0.354104</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+## 2) Based on this correlation matrix only, would you recommend to use `TV`, `radio`, and `newspaper` in the same multiple linear regression model?
+
+
+```python
+"""
+The highest correlation is between radio and newspaper, about 0.35.
+
+Multiple acceptable answers here:
+
+a. It would probably not be a good idea to include both of these variables in a regression model 
+because then there would be high multicollinearity, which violates the independence assumption of linear regression.
+b. A different rule of thumb is that 0.7 is the threshold for "high" correlation, so we should proceed with caution
+but go ahead and include it in the model
+"""
+```
+
+## 3) Use StatsModels' `ols` or `OLS` to create a multiple linear regression model with `TV`, `radio`, and `newspaper` as independent variables and `sales` as the dependent variable.
+
+**Required output:** the model summary of this multiple regression model.
+
+
+```python
+
+# Using ols
+formula = 'sales ~ TV + radio + newspaper'
+model = ols(formula = formula, data = data).fit()
+model.summary()
+```
+
+
+
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>sales</td>      <th>  R-squared:         </th> <td>   0.897</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.896</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   570.3</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 27 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.58e-96</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>10:41:54</td>     <th>  Log-Likelihood:    </th> <td> -386.18</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>   200</td>      <th>  AIC:               </th> <td>   780.4</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>   196</td>      <th>  BIC:               </th> <td>   793.6</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>    2.9389</td> <td>    0.312</td> <td>    9.422</td> <td> 0.000</td> <td>    2.324</td> <td>    3.554</td>
+</tr>
+<tr>
+  <th>TV</th>        <td>    0.0458</td> <td>    0.001</td> <td>   32.809</td> <td> 0.000</td> <td>    0.043</td> <td>    0.049</td>
+</tr>
+<tr>
+  <th>radio</th>     <td>    0.1885</td> <td>    0.009</td> <td>   21.893</td> <td> 0.000</td> <td>    0.172</td> <td>    0.206</td>
+</tr>
+<tr>
+  <th>newspaper</th> <td>   -0.0010</td> <td>    0.006</td> <td>   -0.177</td> <td> 0.860</td> <td>   -0.013</td> <td>    0.011</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>60.414</td> <th>  Durbin-Watson:     </th> <td>   2.084</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td> <th>  Jarque-Bera (JB):  </th> <td> 151.241</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td>-1.327</td> <th>  Prob(JB):          </th> <td>1.44e-33</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 6.332</td> <th>  Cond. No.          </th> <td>    454.</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+
+
+
+```python
+
+# Using OLS
 X = sm.add_constant(X)
-model = sm.OLS(Y,X)
+model = sm.OLS(y,X)
 results = model.fit()
 results.summary()
 ```
 
-<b> 3) Interpret the results of the regression. 
 
-Two players have the following stats: 
 
-1) Finishing : 1, Heading Accuracy : 10, ShortPassing : 5
 
-2) Finishing : 1, Heading Accuracy :  8, ShortPassing : 5
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>sales</td>      <th>  R-squared:         </th> <td>   0.897</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.896</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   570.3</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 27 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.58e-96</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>10:42:08</td>     <th>  Log-Likelihood:    </th> <td> -386.18</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>   200</td>      <th>  AIC:               </th> <td>   780.4</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>   196</td>      <th>  BIC:               </th> <td>   793.6</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>const</th>     <td>    2.9389</td> <td>    0.312</td> <td>    9.422</td> <td> 0.000</td> <td>    2.324</td> <td>    3.554</td>
+</tr>
+<tr>
+  <th>TV</th>        <td>    0.0458</td> <td>    0.001</td> <td>   32.809</td> <td> 0.000</td> <td>    0.043</td> <td>    0.049</td>
+</tr>
+<tr>
+  <th>radio</th>     <td>    0.1885</td> <td>    0.009</td> <td>   21.893</td> <td> 0.000</td> <td>    0.172</td> <td>    0.206</td>
+</tr>
+<tr>
+  <th>newspaper</th> <td>   -0.0010</td> <td>    0.006</td> <td>   -0.177</td> <td> 0.860</td> <td>   -0.013</td> <td>    0.011</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>60.414</td> <th>  Durbin-Watson:     </th> <td>   2.084</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td> <th>  Jarque-Bera (JB):  </th> <td> 151.241</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td>-1.327</td> <th>  Prob(JB):          </th> <td>1.44e-33</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 6.332</td> <th>  Cond. No.          </th> <td>    454.</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 
-Assume all the remaining stats are the same for both players. By how much can we expect the Release Clause of each player to be different? Explain how you obtained your calculation. </b>
+
+
+## 4) Do we have any statistically significant coefficients? If the answer is yes, list them below.
+
+Interpret how these results relate to your answer for Question 2
 
 
 ```python
 """
-Player 1's release clause will be $3442 less than Player 2's. 
-This was calculated using the coefficient of for Heading Accuracy and multiplying by a change of 2 units difference.
+Since the p-value is very small for TV and radio, they are statistically significant at a standard alpha of 0.05.
+
+However, newspaper has a p-value of 0.860, which is not statistically significant.
+
+Going back to the answer for Question 2, it seems like there is multicollinearity between newspaper and radio.
+If we are interested in the "true" coefficients for newspaper and radio, we should only include one or the other
+in our model.
 """
 ```
