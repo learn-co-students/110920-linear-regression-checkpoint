@@ -22,7 +22,7 @@ from statsmodels.formula.api import ols
 
 
 ```python
-# # Run this cell without changes
+# Run this cell without changes
 data = pd.read_csv('data/advertising.csv').drop('Unnamed: 0', axis=1)
 data.describe()
 ```
