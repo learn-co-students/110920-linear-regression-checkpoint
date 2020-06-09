@@ -54,7 +54,7 @@ In the linear regression section of the curriculum, you analyzed how `TV`, `radi
 
 ## 4) For each coefficient:
 
-### - Conclude whether it's statisitically significant 
+### - Conclude whether it's statistically significant 
 
 ### - State how you came to that conclusion
 
