@@ -1,6 +1,8 @@
-## Linear Regression
+# Linear Regression Checkpoint
 
-In this section, you'll be using the Advertising data, and you'll be creating a linear model that is more complicated than a simple linear regression. We'll import the relevant modules and load and prepare the dataset for you below.
+In this checkpoint, you'll be using the Advertising data you encountered previously, containing amounts spent on different advertising platforms and the resulting sales.  Each observation is a different product.  
+
+We'll import the relevant modules and load and prepare the dataset for you below.
 
 
 ```python
@@ -111,7 +113,7 @@ X = data.drop('sales', axis=1)
 y = data['sales']
 ```
 
-In the linear regression section of the curriculum, you analyzed how TV, Radio, and Newspaper spendings individually affected the Sales figures. Here, we'll use all three together in a multiple linear regression model!
+In the linear regression section of the curriculum, you analyzed how `TV`, `radio`, and `newspaper` spending individually affected figures for `sales`. Here, we'll use all three together in a multiple linear regression model!
 
 ## 1) Create a Correlation Matrix for `X`
 
@@ -171,7 +173,7 @@ X.corr()
 
 
 
-## 2) Based on this correlation matrix only, would you recommend to use `TV`, `radio`, and `newspaper` in the same multiple linear regression model?
+## 2) Based on this correlation matrix only, would you recommend using `TV`, `radio`, and `newspaper` in the same multiple linear regression model?
 
 
 ```python
@@ -181,15 +183,17 @@ The highest correlation is between radio and newspaper, about 0.35.
 Multiple acceptable answers here:
 
 a. It would probably not be a good idea to include both of these variables in a regression model 
-because then there would be high multicollinearity, which violates the independence assumption of linear regression.
+because then there would be multicollinearity, and an assumption in interpreting the coefficients 
+of a regression model is independence of the features.
+
 b. A different rule of thumb is that 0.7 is the threshold for "high" correlation, so we should proceed with caution
 but go ahead and include it in the model
 """
 ```
 
-## 3) Use StatsModels' `ols` or `OLS` to create a multiple linear regression model with `TV`, `radio`, and `newspaper` as independent variables and `sales` as the dependent variable.
+## 3) Create a multiple linear regression model (using either `ols()` or `sm.OLS()`).  Use `TV`, `radio`, and `newspaper` as independent variables, and `sales` as the dependent variable.
 
-**Required output:** the model summary of this multiple regression model.
+### Produce the model summary table of this multiple linear regression model.
 
 
 ```python
@@ -344,9 +348,13 @@ results.summary()
 
 
 
-## 4) Do we have any statistically significant coefficients? If the answer is yes, list them below.
+## 4) For each coefficient:
 
-Interpret how these results relate to your answer for Question 2
+### - Conclude whether it's statisitically significant 
+
+### - State how you came to that conclusion
+
+## Interpret how these results relate to your answer for Question 2
 
 
 ```python
@@ -354,6 +362,12 @@ Interpret how these results relate to your answer for Question 2
 Since the p-value is very small for TV and radio, they are statistically significant at a standard alpha of 0.05.
 
 However, newspaper has a p-value of 0.860, which is not statistically significant.
+
+Alt: since the confidence interval generated at alpha=.05 doesn't include 0 for TV and radio, they can be considered
+statistically significant 
+
+However, since the confidence interval generated at alpha=.05 does include 0 for newpapers, we can conclude it is 
+not statistically significant
 
 Going back to the answer for Question 2, it seems like there is multicollinearity between newspaper and radio.
 If we are interested in the "true" coefficients for newspaper and radio, we should only include one or the other
