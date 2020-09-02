@@ -14,14 +14,6 @@ from statsmodels.formula.api import ols
 
 
 ```python
-# __SOLUTION__ 
-import pandas as pd
-import statsmodels.api as sm
-from statsmodels.formula.api import ols
-```
-
-
-```python
 # Run this cell without changes
 data = pd.read_csv('data/advertising.csv').drop('Unnamed: 0', axis=1)
 data.describe()
@@ -29,112 +21,8 @@ data.describe()
 
 
 ```python
-# __SOLUTION__ 
-data = pd.read_csv('data/advertising.csv').drop('Unnamed: 0', axis=1)
-data.describe()
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>TV</th>
-      <th>radio</th>
-      <th>newspaper</th>
-      <th>sales</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>200.000000</td>
-      <td>200.000000</td>
-      <td>200.000000</td>
-      <td>200.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>147.042500</td>
-      <td>23.264000</td>
-      <td>30.554000</td>
-      <td>14.022500</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>85.854236</td>
-      <td>14.846809</td>
-      <td>21.778621</td>
-      <td>5.217457</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>0.700000</td>
-      <td>0.000000</td>
-      <td>0.300000</td>
-      <td>1.600000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>74.375000</td>
-      <td>9.975000</td>
-      <td>12.750000</td>
-      <td>10.375000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>149.750000</td>
-      <td>22.900000</td>
-      <td>25.750000</td>
-      <td>12.900000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>218.825000</td>
-      <td>36.525000</td>
-      <td>45.100000</td>
-      <td>17.400000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>296.400000</td>
-      <td>49.600000</td>
-      <td>114.000000</td>
-      <td>27.000000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
 # Run this cell without changes
 
-X = data.drop('sales', axis=1)
-y = data['sales']
-```
-
-
-```python
-# __SOLUTION__
 X = data.drop('sales', axis=1)
 y = data['sales']
 ```
@@ -145,13 +33,19 @@ In the linear regression section of the curriculum, you analyzed how `TV`, `radi
 
 
 ```python
-# Your code here
-```
+### BEGIN SOLUTION
 
 
-```python
-# __SOLUTION__
+from test_scripts.test_class import Test
+test = Test()
+
 X.corr()
+
+test.save()
+
+
+
+### END SOLUTION
 ```
 
 
@@ -205,16 +99,26 @@ X.corr()
 
 
 
-## 2) Based on this correlation matrix only, would you recommend using `TV`, `radio`, and `newspaper` in the same multiple linear regression model?
-
 
 ```python
-# Your written answer here
+# PUT ALL WORK FOR THE ABOVE QUESTION ABOVE THIS CELL
+# THIS UNALTERABLE CELL CONTAINS HIDDEN TESTS
+
+### BEGIN HIDDEN TESTS
+
+from test_scripts.test_class import Test
+test = Test()
+
+test.run_test()
+
+
+### END HIDDEN TESTS
 ```
 
+## 2) Based on this correlation matrix only, would you recommend using `TV`, `radio`, and `newspaper` in the same multiple linear regression model?
 
-```python
-# __SOLUTION__
+=== BEGIN MARK SCHEME ===
+
 """
 The highest correlation is between radio and newspaper, about 0.35.
 
@@ -227,7 +131,8 @@ of a regression model is independence of the features.
 b. A different rule of thumb is that 0.7 is the threshold for "high" correlation, so we should proceed with caution
 but go ahead and include it in the model
 """
-```
+
+=== END MARK SCHEME ===
 
 ## 3) Create a multiple linear regression model (using either `ols()` or `sm.OLS()`).  Use `TV`, `radio`, and `newspaper` as independent variables, and `sales` as the dependent variable.
 
@@ -235,17 +140,23 @@ but go ahead and include it in the model
 
 
 ```python
-# Your code here
-```
+### BEGIN SOLUTION
 
 
-```python
-# __SOLUTION__
+from test_scripts.test_class import Test
+test = Test()
+
 
 # Using ols
 formula = 'sales ~ TV + radio + newspaper'
 model = ols(formula = formula, data = data).fit()
 model.summary()
+
+test.save()
+
+
+
+### END SOLUTION
 ```
 
 
@@ -317,13 +228,40 @@ model.summary()
 
 
 ```python
-# __SOLUTION__ 
+# PUT ALL WORK FOR THE ABOVE QUESTION ABOVE THIS CELL
+# THIS UNALTERABLE CELL CONTAINS HIDDEN TESTS
+
+### BEGIN HIDDEN TESTS
+
+from test_scripts.test_class import Test
+test = Test()
+
+test.run_test()
+
+
+### END HIDDEN TESTS
+```
+
+
+```python
+### BEGIN SOLUTION
+
+
+from test_scripts.test_class import Test
+test = Test()
+
 
 # Using OLS
 X = sm.add_constant(X)
 model = sm.OLS(y,X)
 results = model.fit()
 results.summary()
+
+test.save()
+
+
+
+### END SOLUTION
 ```
 
 
@@ -393,6 +331,22 @@ results.summary()
 
 
 
+
+```python
+# PUT ALL WORK FOR THE ABOVE QUESTION ABOVE THIS CELL
+# THIS UNALTERABLE CELL CONTAINS HIDDEN TESTS
+
+### BEGIN HIDDEN TESTS
+
+from test_scripts.test_class import Test
+test = Test()
+
+test.run_test()
+
+
+### END HIDDEN TESTS
+```
+
 ## 4) For each coefficient:
 
 ### - Conclude whether it's statistically significant 
@@ -401,14 +355,8 @@ results.summary()
 
 ## Interpret how these results relate to your answer for Question 2
 
+=== BEGIN MARK SCHEME ===
 
-```python
-# Your written answer here
-```
-
-
-```python
-# __SOLUTION__
 """
 Since the p-value is very small for TV and radio, they are statistically significant at a standard alpha of 0.05.
 
@@ -424,9 +372,5 @@ Going back to the answer for Question 2, it seems like there is multicollinearit
 If we are interested in the "true" coefficients for newspaper and radio, we should only include one or the other
 in our model.
 """
-```
 
-
-```python
-
-```
+=== END MARK SCHEME ===
